@@ -1,0 +1,16 @@
+{
+  "name": "achalugo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A mischievous Valentine's Day app — your valentine can never say No 💘",
+  "scripts": {
+    "dev": "wrangler pages dev public/ --kv=ACHALUGO_KV --compatibility-date=2026-02-13",
+    "deploy": "wrangler pages deploy public/",
+    "preview": "wrangler pages dev public/ --kv=ACHALUGO_KV"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0",
+    "@cloudflare/workers-types": "^4.20260101.0",
+    "typescript": "^5.7.0"
+  }
+}

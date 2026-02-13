@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achalugo 💔 Submissions Closed</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card closed-page">
+      <h1 class="title">Achalugo 💔</h1>
+
+      <div class="closed-hero">
+        <p class="closed-emoji">😴</p>
+        <h2>Cupid is resting...</h2>
+        <p>Too many love confessions today! Submissions are closed.</p>
+      </div>
+
+      <div class="waitlist-section">
+        <h3>But something new is coming 👀</h3>
+        <p>Drop your email to be first in line for what's next.</p>
+
+        <form id="waitlist-form" class="form">
+          <div class="field">
+            <input
+              type="email"
+              id="waitlist-email"
+              placeholder="your@email.com"
+              required
+            >
+          </div>
+
+          <!-- Turnstile widget -->
+          <div class="cf-turnstile"
+               data-sitekey="0x4AAAAAAXXXXXXXXXXXXXXX"
+               data-theme="light"
+               data-callback="onTurnstileSuccess">
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="waitlist-btn" disabled>
+            <span class="btn-text">Join the Secret List 💌</span>
+            <span class="btn-loading" hidden>Saving...</span>
+          </button>
+        </form>
+
+        <div id="waitlist-success" class="success-msg" hidden>
+          <p>✅ You're on the list! We'll let you know when something amazing drops.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Made with 💖 for Valentine's Day 2026</p>
+    </footer>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/waitlist.js"></script>
+</body>
+</html>

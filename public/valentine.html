@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine? 💘</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container valentine-page">
+
+    <!-- Loading state -->
+    <div id="loading" class="card">
+      <p class="loading-text">Loading your valentine... 💌</p>
+    </div>
+
+    <!-- Not found -->
+    <div id="not-found" class="card" hidden>
+      <h1>💔 Link Not Found</h1>
+      <p>This valentine link doesn't exist or has expired.</p>
+      <a href="/" class="btn btn-primary">Create Your Own</a>
+    </div>
+
+    <!-- Already accepted -->
+    <div id="already-accepted" class="card" hidden>
+      <h1>💕 Already Accepted!</h1>
+      <p id="already-msg"></p>
+      <div class="confetti-zone" id="confetti-zone"></div>
+    </div>
+
+    <!-- The main valentine interaction -->
+    <div id="valentine-card" class="card valentine-interaction" hidden>
+      <div class="hearts-bg" aria-hidden="true">
+        <span class="heart h1">💕</span>
+        <span class="heart h2">💗</span>
+        <span class="heart h3">💘</span>
+        <span class="heart h4">❤️</span>
+        <span class="heart h5">💖</span>
+      </div>
+
+      <h1 class="valentine-title">
+        Hey <span id="recipient-name" class="highlight"></span>!
+      </h1>
+      <p class="valentine-question">
+        <span id="sender-name" class="highlight"></span> wants to know...
+      </p>
+      <h2 class="valentine-ask">Will you be my Valentine? 💘</h2>
+
+      <div class="valentine-buttons">
+        <button class="btn btn-yes" id="yes-btn">Yes! 💖</button>
+        <button class="btn btn-no" id="no-btn">No 💔</button>
+      </div>
+    </div>
+
+    <!-- Accepted celebration -->
+    <div id="accepted-card" class="card celebration" hidden>
+      <canvas id="confetti-canvas"></canvas>
+      <div class="celebration-content">
+        <h1>🎉 YES! 🎉</h1>
+        <p>
+          <span id="accepted-recipient" class="highlight"></span> said YES to
+          <span id="accepted-sender" class="highlight"></span>!
+        </p>
+        <p class="celebration-sub">Happy Valentine's Day! 💕</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/confetti.js"></script>
+  <script src="/js/valentine.js"></script>
+</body>
+</html>

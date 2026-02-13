@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achalugo 💘 Send Your Valentine</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="hearts-bg" aria-hidden="true">
+        <span class="heart h1">💕</span>
+        <span class="heart h2">💗</span>
+        <span class="heart h3">💘</span>
+        <span class="heart h4">❤️</span>
+        <span class="heart h5">💖</span>
+      </div>
+
+      <h1 class="title">Achalugo <span class="heart-icon">💘</span></h1>
+      <p class="subtitle">Send your Valentine a link they <em>can't</em> refuse</p>
+
+      <!-- Create Form -->
+      <form id="create-form" class="form">
+        <div class="field">
+          <label for="sender-name">Your Name</label>
+          <input
+            type="text"
+            id="sender-name"
+            placeholder="e.g. Alex"
+            maxlength="50"
+            required
+            autocomplete="given-name"
+          >
+        </div>
+
+        <div class="field">
+          <label for="recipient-name">Your Valentine's Name</label>
+          <input
+            type="text"
+            id="recipient-name"
+            placeholder="e.g. Jamie"
+            maxlength="50"
+            required
+          >
+        </div>
+
+        <!-- Turnstile widget -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAAXXXXXXXXXXXXXXX"
+             data-theme="light"
+             data-callback="onTurnstileSuccess">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+          <span class="btn-text">Generate Valentine Link 💌</span>
+          <span class="btn-loading" hidden>Creating...</span>
+        </button>
+      </form>
+
+      <!-- Result (shown after successful creation) -->
+      <div id="result" class="result" hidden>
+        <h2>Your link is ready! 🎉</h2>
+        <p>Send this to <strong id="result-recipient"></strong>:</p>
+        <div class="link-box">
+          <input type="text" id="result-link" readonly>
+          <button class="btn btn-copy" id="copy-btn">Copy</button>
+        </div>
+        <p class="hint">They'll never be able to say No 😈</p>
+        <button class="btn btn-secondary" id="create-another">Create Another</button>
+      </div>
+
+      <!-- Closed state -->
+      <div id="closed-notice" class="closed-notice" hidden>
+        <p>💔 Too many love confessions today… Cupid closed submissions.</p>
+        <p>But something new is coming 👀</p>
+        <a href="/closed" class="btn btn-secondary">Join the Secret List</a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Made with 💖 for Valentine's Day 2026</p>
+    </footer>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/create.js"></script>
+</body>
+</html>

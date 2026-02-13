@@ -1,0 +1,7 @@
+name = "achalugo"
+compatibility_date = "2026-02-13"
+
+[[kv_namespaces]]
+binding = "ACHALUGO_KV"
+id = ""
+preview_id = ""
