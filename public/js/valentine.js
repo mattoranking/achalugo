@@ -65,16 +65,21 @@
     loadingEl.hidden = true;
     alreadyMsg.textContent =
       data.recipientName + " already said YES to " + data.senderName + "! 💕";
-    alreadyEl.hidden = false;
-    startConfetti();
 
-    // Wire up share links
+    // Wire up share buttons before showing
     var appUrl = window.location.origin;
     var shareText = "I just got pranked on Achalugo 😂💘 Try sending one to your Valentine!";
     var waEl = document.getElementById("already-share-whatsapp");
     var twEl = document.getElementById("already-share-twitter");
-    if (waEl) waEl.href = "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + appUrl);
-    if (twEl) twEl.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) + "&url=" + encodeURIComponent(appUrl);
+    if (waEl) waEl.addEventListener("click", function () {
+      window.open("https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + appUrl), "_blank");
+    });
+    if (twEl) twEl.addEventListener("click", function () {
+      window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) + "&url=" + encodeURIComponent(appUrl), "_blank");
+    });
+
+    alreadyEl.hidden = false;
+    startConfetti();
 
     if (data.youtubeUrl) {
       // Clone the video into the already-accepted card
