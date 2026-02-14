@@ -9,14 +9,62 @@
   const btnText    = submitBtn.querySelector(".btn-text");
   const btnLoading = submitBtn.querySelector(".btn-loading");
 
-  const resultDiv       = document.getElementById("result");
-  const resultRecipient = document.getElementById("result-recipient");
-  const resultLink      = document.getElementById("result-link");
-  const copyBtn         = document.getElementById("copy-btn");
   const closedNotice    = document.getElementById("closed-notice");
-  const createAnother   = document.getElementById("create-another");
+  const countdownBadge  = document.getElementById("countdown-badge");
+  const remainingCount  = document.getElementById("remaining-count");
+  const totalCount      = document.getElementById("total-count");
+  const flashEl         = document.getElementById("flash-message");
+  const flashText       = document.getElementById("flash-text");
 
   let turnstileToken = null;
+  let flashTimer = null;
+
+  // ── Flash message (replaces alert) ──────────────────────────
+  function showFlash(message, type = "error") {
+    clearTimeout(flashTimer);
+    flashEl.className = "flash-message flash-" + type;
+    flashText.textContent = message;
+    flashEl.hidden = false;
+    // Re-trigger animation
+    flashEl.style.animation = "none";
+    flashEl.offsetHeight;              // force reflow
+    flashEl.style.animation = "";
+    flashTimer = setTimeout(function () {
+      flashEl.hidden = true;
+    }, 5000);
+  }
+
+  // ── Fetch personal usage on load ────────────────────────────
+  function showClosed() {
+    window.location.href = "/closed";
+  }
+
+  async function loadRemaining() {
+    try {
+      const res  = await fetch("/api/remaining");
+      const data = await res.json();
+
+      if (data.closed) {
+        showClosed();
+        return;
+      }
+
+      remainingCount.textContent = data.personalRemaining;
+      totalCount.textContent     = data.personalLimit;
+      countdownBadge.hidden      = false;
+
+      // Urgency when personal links exhausted
+      if (data.personalRemaining === 0) {
+        countdownBadge.classList.add("countdown-urgent");
+      } else if (data.personalRemaining === 1) {
+        countdownBadge.classList.add("countdown-warning");
+      }
+    } catch (err) {
+      console.error("Could not load remaining count:", err);
+    }
+  }
+
+  loadRemaining();
 
   // Turnstile callback — called globally by the widget
   window.onTurnstileSuccess = function (token) {
@@ -52,26 +100,26 @@
       const data = await res.json();
 
       if (data.closed) {
-        // Show closed state
-        form.hidden         = true;
-        closedNotice.hidden = false;
+        showClosed();
         return;
       }
 
       if (data.error) {
-        alert(data.error);
+        // Make rate-limit message extra fun
+        const msg = data.error.includes("Too many")
+          ? "💘 Cupid says slow down! " + data.error
+          : "😅 " + data.error;
+        showFlash(msg);
         return;
       }
 
-      // Success — show the link
-      const fullUrl = window.location.origin + data.url;
-      resultRecipient.textContent = recipientName;
-      resultLink.value            = fullUrl;
-      form.hidden                 = true;
-      resultDiv.hidden            = false;
+      // Success — redirect to success page
+      window.location.href = "/success.html?recipient=" +
+        encodeURIComponent(recipientName) +
+        "&link=" + encodeURIComponent(data.url);
 
     } catch (err) {
-      alert("Something went wrong. Please try again.");
+      showFlash("💔 Oops! Something went wrong. Try again, lover!");
       console.error(err);
     } finally {
       btnText.hidden    = false;
@@ -82,28 +130,6 @@
       if (window.turnstile) {
         turnstile.reset();
       }
-    }
-  });
-
-  // ── Copy button ──────────────────────────────────────────────
-  copyBtn.addEventListener("click", function () {
-    resultLink.select();
-    navigator.clipboard.writeText(resultLink.value).then(function () {
-      copyBtn.textContent = "Copied!";
-      setTimeout(function () {
-        copyBtn.textContent = "Copy";
-      }, 2000);
-    });
-  });
-
-  // ── Create another ──────────────────────────────────────────
-  createAnother.addEventListener("click", function () {
-    resultDiv.hidden = true;
-    form.hidden      = false;
-    form.reset();
-    submitBtn.disabled = true;
-    if (window.turnstile) {
-      turnstile.reset();
     }
   });
 })();

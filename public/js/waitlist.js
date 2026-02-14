@@ -4,6 +4,12 @@
 (function () {
   "use strict";
 
+  // Guard: redirect to home if links are still available
+  fetch("/api/remaining")
+    .then(function (r) { return r.json(); })
+    .then(function (d) { if (!d.closed) window.location.href = "/"; })
+    .catch(function () {});
+
   const form       = document.getElementById("waitlist-form");
   const submitBtn  = document.getElementById("waitlist-btn");
   const btnText    = submitBtn.querySelector(".btn-text");

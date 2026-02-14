@@ -21,10 +21,15 @@
       <h1 class="title">Achalugo <span class="heart-icon">💘</span></h1>
       <p class="subtitle">Send your Valentine a link they <em>can't</em> refuse</p>
 
+      <!-- Personal usage badge -->
+      <div id="countdown-badge" class="countdown-badge" hidden>
+        💌 You have <span id="remaining-count"></span> of <span id="total-count"></span> links left today
+      </div>
+
       <!-- Create Form -->
       <form id="create-form" class="form">
         <div class="field">
-          <label for="sender-name">Your Name</label>
+          <label for="sender-name">Your Name (or nickname)</label>
           <input
             type="text"
             id="sender-name"
@@ -36,7 +41,7 @@
         </div>
 
         <div class="field">
-          <label for="recipient-name">Your Valentine's Name</label>
+          <label for="recipient-name">Your Valentine's Name (or nickname)</label>
           <input
             type="text"
             id="recipient-name"
@@ -48,7 +53,7 @@
 
         <!-- Turnstile widget -->
         <div class="cf-turnstile"
-             data-sitekey="0x4AAAAAAXXXXXXXXXXXXXXX"
+             data-sitekey="0x4AAAAAACb7SKvuHe_bsBlz"
              data-theme="light"
              data-callback="onTurnstileSuccess">
         </div>
@@ -59,16 +64,10 @@
         </button>
       </form>
 
-      <!-- Result (shown after successful creation) -->
-      <div id="result" class="result" hidden>
-        <h2>Your link is ready! 🎉</h2>
-        <p>Send this to <strong id="result-recipient"></strong>:</p>
-        <div class="link-box">
-          <input type="text" id="result-link" readonly>
-          <button class="btn btn-copy" id="copy-btn">Copy</button>
-        </div>
-        <p class="hint">They'll never be able to say No 😈</p>
-        <button class="btn btn-secondary" id="create-another">Create Another</button>
+      <!-- Flash message -->
+      <div id="flash-message" class="flash-message" hidden>
+        <span id="flash-text"></span>
+        <button class="flash-close" onclick="this.parentElement.hidden=true">&times;</button>
       </div>
 
       <!-- Closed state -->

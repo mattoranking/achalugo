@@ -1,5 +1,5 @@
 import { verifyTurnstile } from "../utils/turnstile";
-import { checkRateLimit } from "../utils/ratelimit";
+import { checkRateLimit, MAX_REQUESTS } from "../utils/ratelimit";
 import {
   generateLinkId,
   jsonResponse,
@@ -51,10 +51,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return errorResponse("Turnstile verification failed", 403);
   }
 
-  const { allowed } = await checkRateLimit(env.ACHALUGO_KV, ip);
+  const { allowed, remaining } = await checkRateLimit(env.ACHALUGO_KV, ip);
   if (!allowed) {
     return errorResponse(
-      "Too many requests. You can create up to 5 links per hour.",
+      `Too many requests. You can create up to ${MAX_REQUESTS} links per day.`,
       429
     );
   }

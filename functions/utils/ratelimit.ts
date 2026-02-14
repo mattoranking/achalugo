@@ -3,9 +3,34 @@
  * Allows MAX_REQUESTS per WINDOW_MS per IP address.
  */
 
-const MAX_REQUESTS = 5;     // max link creations per window
-const WINDOW_MS = 60 * 60 * 1000; // 1 hour
+export const MAX_REQUESTS = 2;     // max link creations per window
+const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
 
+/**
+ * Peek at current usage without incrementing.
+ */
+export async function peekRateLimit(
+  kv: KVNamespace,
+  ip: string
+): Promise<{ used: number; limit: number; remaining: number }> {
+  const key = `rate:${ip}`;
+  const now = Date.now();
+
+  const raw = await kv.get(key);
+  if (!raw) return { used: 0, limit: MAX_REQUESTS, remaining: MAX_REQUESTS };
+
+  const entry: RateLimitEntry = JSON.parse(raw);
+  if (now - entry.windowStart > WINDOW_MS) {
+    return { used: 0, limit: MAX_REQUESTS, remaining: MAX_REQUESTS };
+  }
+
+  const used = Math.min(entry.count, MAX_REQUESTS);
+  return { used, limit: MAX_REQUESTS, remaining: MAX_REQUESTS - used };
+}
+
+/**
+ * Check and increment rate limit.
+ */
 export async function checkRateLimit(
   kv: KVNamespace,
   ip: string

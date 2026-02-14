@@ -6,6 +6,9 @@ interface Env {
 
   /** Turnstile secret key — set via `wrangler secret put TURNSTILE_SECRET` */
   TURNSTILE_SECRET: string;
+
+  /** Cloudflare Pages static assets binding */
+  ASSETS: Fetcher;
 }
 
 /** A valentine link record stored in KV under key `link:<id>` */

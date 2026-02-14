@@ -82,10 +82,35 @@
   }
 
   // ── The Evil "No" Button ────────────────────────────────────
-  // It runs away from the mouse/touch so it can never be clicked
+  // Starts side by side, then runs away when user tries to touch it
   function initRunawayButton() {
     const container = document.querySelector(".valentine-buttons");
     let noEscapeCount = 0;
+
+    // Escalating labels — mix of playful English + Igbo/Nigerian flavor
+    const noLabels = [
+      "No 💔",              // 0 — starting text
+      "Nope! 😅",           // 1
+      "Catch me if you can! 😜", // 2
+      "Can't catch me! 🏃",  // 3
+      "Why are you running? 😂", // 4
+      "Just Say Yes, Alákorí 😈", // 5
+      "You no dey tire? 😩",     // 6
+      "Say Yes Nah, Achalugo 💕", // 7
+      "Give up already! 🙄",     // 8
+      "Try YES, it's easier! 😏", // 9
+      "Say Yes Sweetie! 🥺",     // 10
+      "Obim, say yes nah 💘",    // 11
+      "Una go tire! 😂",          // 12
+      "Say Yes! Atóolè 😂",       // 13
+      "JUST CLICK YES! 😤",      // 14
+    ];
+
+    function getNoLabel() {
+      // Cycle through labels endlessly (loops back after reaching the end)
+      var idx = noEscapeCount % noLabels.length;
+      return noLabels[idx];
+    }
 
     function moveNoButton(cursorX, cursorY) {
       const btnRect    = noBtn.getBoundingClientRect();
@@ -100,17 +125,35 @@
       if (distance < 150) {
         noEscapeCount++;
 
-        // Calculate escape direction (away from cursor)
-        const angle  = Math.atan2(dy, dx);
-        const jumpDist = 120 + Math.random() * 80;
+        // Update the button text
+        noBtn.textContent = getNoLabel();
 
+        // Calculate escape direction — add random angle offset so it jumps all around
+        const baseAngle = Math.atan2(dy, dx);
+        const randomOffset = (Math.random() - 0.5) * Math.PI; // ±90° variation
+        const angle = baseAngle + randomOffset;
+        const jumpDist = 150 + Math.random() * 150;
+
+        // Pick a random spot biased away from cursor
         let newX = btnRect.left - Math.cos(angle) * jumpDist;
         let newY = btnRect.top  - Math.sin(angle) * jumpDist;
 
-        // Keep it on screen
+        // If it would land near an edge, flip to the opposite side of the screen
         const margin = 20;
         const maxX = window.innerWidth - btnRect.width - margin;
         const maxY = window.innerHeight - btnRect.height - margin;
+
+        if (newX < margin || newX > maxX) {
+          newX = newX < margin
+            ? maxX - Math.random() * (maxX / 2)
+            : margin + Math.random() * (maxX / 2);
+        }
+        if (newY < margin || newY > maxY) {
+          newY = newY < margin
+            ? maxY - Math.random() * (maxY / 2)
+            : margin + Math.random() * (maxY / 2);
+        }
+
         newX = Math.max(margin, Math.min(newX, maxX));
         newY = Math.max(margin, Math.min(newY, maxY));
 
@@ -119,21 +162,9 @@
         noBtn.style.top      = newY + "px";
         noBtn.style.transition = "none";
 
-        // After a few attempts, make the button shrink
-        if (noEscapeCount > 5) {
-          const scale = Math.max(0.5, 1 - (noEscapeCount - 5) * 0.08);
-          noBtn.style.transform = "scale(" + scale + ")";
-        }
-
-        // After many attempts, change the text
-        if (noEscapeCount === 3)  noBtn.textContent = "Nope! 😅";
-        if (noEscapeCount === 6)  noBtn.textContent = "Can't catch me! 🏃";
-        if (noEscapeCount === 10) noBtn.textContent = "Give up! 😈";
-        if (noEscapeCount === 15) noBtn.textContent = "Just say Yes! 💕";
-
-        // Meanwhile, grow the Yes button
+        // Meanwhile, grow the Yes button slightly
         if (noEscapeCount > 3) {
-          const yesScale = Math.min(1.5, 1 + noEscapeCount * 0.03);
+          const yesScale = Math.min(1.4, 1 + noEscapeCount * 0.02);
           yesBtn.style.transform = "scale(" + yesScale + ")";
         }
       }

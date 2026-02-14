@@ -3,5 +3,4 @@ compatibility_date = "2026-02-13"
 
 [[kv_namespaces]]
 binding = "ACHALUGO_KV"
-id = ""
-preview_id = ""
+id = "0707a43cacd64ff7877974ac0146fd3f"

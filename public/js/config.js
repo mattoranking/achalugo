@@ -4,6 +4,6 @@
  * Replace with your real site key from the Cloudflare dashboard.
  */
 window.ACHALUGO_CONFIG = {
-  TURNSTILE_SITE_KEY: "0x4AAAAAAXXXXXXXXXXXXXXX",
+  TURNSTILE_SITE_KEY: "0x4AAAAAACb7SKvuHe_bsBlz",
   API_BASE: "",
 };
