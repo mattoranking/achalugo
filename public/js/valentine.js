@@ -68,6 +68,14 @@
     alreadyEl.hidden = false;
     startConfetti();
 
+    // Wire up share links
+    var appUrl = window.location.origin;
+    var shareText = "I just got pranked on Achalugo 😂💘 Try sending one to your Valentine!";
+    var waEl = document.getElementById("already-share-whatsapp");
+    var twEl = document.getElementById("already-share-twitter");
+    if (waEl) waEl.href = "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + appUrl);
+    if (twEl) twEl.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) + "&url=" + encodeURIComponent(appUrl);
+
     if (data.youtubeUrl) {
       // Clone the video into the already-accepted card
       var playerClone = document.createElement("div");
