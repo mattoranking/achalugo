@@ -24,5 +24,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     senderName: record.senderName,
     recipientName: record.recipientName,
     accepted: record.accepted,
+    youtubeUrl: record.youtubeUrl || null,
   });
 };

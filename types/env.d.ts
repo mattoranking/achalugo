@@ -18,6 +18,7 @@ interface LinkRecord {
   recipientName: string;
   accepted: boolean;
   createdAt: string; // ISO timestamp
+  youtubeUrl?: string;
 }
 
 /** Rate limit entry stored in KV under key `rate:<ip>` */

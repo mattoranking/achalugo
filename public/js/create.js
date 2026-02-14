@@ -77,6 +77,7 @@
 
     const senderName    = document.getElementById("sender-name").value.trim();
     const recipientName = document.getElementById("recipient-name").value.trim();
+    const youtubeUrl    = document.getElementById("youtube-url").value.trim();
 
     if (!senderName || !recipientName) return;
     if (!turnstileToken) return;
@@ -94,6 +95,7 @@
           senderName,
           recipientName,
           turnstileToken,
+          ...(youtubeUrl ? { youtubeUrl } : {}),
         }),
       });
 

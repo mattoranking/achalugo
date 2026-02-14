@@ -20,7 +20,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const record: LinkRecord = JSON.parse(raw);
 
   if (record.accepted) {
-    return jsonResponse({ alreadyAccepted: true, senderName: record.senderName });
+    return jsonResponse({ alreadyAccepted: true, senderName: record.senderName, recipientName: record.recipientName, youtubeUrl: record.youtubeUrl || null });
   }
 
   record.accepted = true;
@@ -30,5 +30,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     success: true,
     senderName: record.senderName,
     recipientName: record.recipientName,
+    youtubeUrl: record.youtubeUrl || null,
   });
 };

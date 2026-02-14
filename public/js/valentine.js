@@ -25,6 +25,7 @@
 
   const acceptedRecipient = document.getElementById("accepted-recipient");
   const acceptedSender    = document.getElementById("accepted-sender");
+  const youtubePlayer     = document.getElementById("youtube-player");
 
   let linkData = null;
 
@@ -69,6 +70,14 @@
       data.recipientName + " already said YES to " + data.senderName + "! 💕";
     alreadyEl.hidden = false;
     startConfetti();
+
+    if (data.youtubeUrl) {
+      // Clone the video into the already-accepted card
+      var playerClone = document.createElement("div");
+      playerClone.className = "youtube-embed";
+      alreadyEl.querySelector(".confetti-zone").before(playerClone);
+      embedYoutube(playerClone, data.youtubeUrl);
+    }
   }
 
   function showValentine(data) {
@@ -213,6 +222,11 @@
 
       startConfetti();
 
+      // Play YouTube video if attached
+      if (data.youtubeUrl) {
+        showYoutubeVideo(data.youtubeUrl);
+      }
+
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again!");
@@ -220,6 +234,32 @@
       yesBtn.disabled = false;
     }
   });
+
+  // ── YouTube Video ────────────────────────────────────────────
+  function extractYoutubeId(url) {
+    var match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  function embedYoutube(container, url) {
+    var videoId = extractYoutubeId(url);
+    if (!videoId) return;
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&loop=1&playlist=" + videoId;
+    iframe.width = "100%";
+    iframe.height = "220";
+    iframe.frameBorder = "0";
+    iframe.allow = "autoplay; encrypted-media";
+    iframe.allowFullscreen = true;
+    iframe.style.borderRadius = "12px";
+    iframe.style.marginTop = "1.2rem";
+    container.appendChild(iframe);
+    container.hidden = false;
+  }
+
+  function showYoutubeVideo(url) {
+    embedYoutube(youtubePlayer, url);
+  }
 
   // ── Init ────────────────────────────────────────────────────
   loadLink();

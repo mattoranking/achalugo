@@ -20,6 +20,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     senderName?: string;
     recipientName?: string;
     turnstileToken?: string;
+    youtubeUrl?: string;
   };
 
   try {
@@ -28,7 +29,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return errorResponse("Invalid JSON body");
   }
 
-  const { senderName, recipientName, turnstileToken } = body;
+  const { senderName, recipientName, turnstileToken, youtubeUrl } = body;
 
   if (!senderName || !recipientName) {
     return errorResponse("Both senderName and recipientName are required");
@@ -66,6 +67,20 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return jsonResponse({ closed: true, message: "Submissions are closed!" });
   }
 
+  // Validate YouTube URL if provided
+  let sanitizedYoutubeUrl: string | undefined;
+  if (youtubeUrl) {
+    const yt = youtubeUrl.trim();
+    if (yt.length > 200) {
+      return errorResponse("YouTube URL is too long");
+    }
+    const ytPattern = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//;
+    if (!ytPattern.test(yt)) {
+      return errorResponse("Please enter a valid YouTube URL");
+    }
+    sanitizedYoutubeUrl = yt;
+  }
+
   const id = generateLinkId();
   const record: LinkRecord = {
     id,
@@ -73,6 +88,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     recipientName: recipientName.trim(),
     accepted: false,
     createdAt: new Date().toISOString(),
+    ...(sanitizedYoutubeUrl ? { youtubeUrl: sanitizedYoutubeUrl } : {}),
   };
 
   await env.ACHALUGO_KV.put(`link:${id}`, JSON.stringify(record));

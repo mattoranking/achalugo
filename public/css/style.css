@@ -233,6 +233,24 @@ body {
   color: #bbb;
 }
 
+.optional-tag {
+  font-weight: 400;
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.youtube-embed {
+  margin-top: 1.2rem;
+}
+
 /* ── Buttons ──────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
