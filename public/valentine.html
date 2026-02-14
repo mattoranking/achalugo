@@ -41,10 +41,9 @@
       <h1 class="valentine-title">
         Hey <span id="recipient-name" class="highlight"></span>!
       </h1>
-      <p class="valentine-question">
-        <span id="sender-name" class="highlight"></span> has a question for you...
-      </p>
-      <h2 class="valentine-ask">"Will you be my Valentine?" 💘</h2>
+      <h2 class="valentine-ask">Will you be my Valentine? 💘</h2>
+
+      <p class="valentine-hint">psst… try tapping <strong>No</strong> first 😏</p>
 
       <div class="valentine-buttons">
         <button class="btn btn-yes" id="yes-btn">Yes! 💖</button>
@@ -56,12 +55,8 @@
     <div id="accepted-card" class="card celebration" hidden>
       <canvas id="confetti-canvas"></canvas>
       <div class="celebration-content">
-        <h1>🎉 YES! 🎉</h1>
-        <p>
-          <span id="accepted-recipient" class="highlight"></span> said YES to
-          <span id="accepted-sender" class="highlight"></span>!
-        </p>
-        <p class="celebration-sub">Happy Valentine's Day! 💕</p>
+        <h1>🎉 YAY! 🎉</h1>
+        <p class="celebration-sub" id="celebration-sub"></p>
         <div id="youtube-player" class="youtube-embed" hidden></div>
       </div>
     </div>

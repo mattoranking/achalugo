@@ -35,8 +35,21 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return errorResponse("Both senderName and recipientName are required");
   }
 
-  if (senderName.length > 50 || recipientName.length > 50) {
+  const trimmedSender = senderName.trim();
+  const trimmedRecipient = recipientName.trim();
+
+  if (trimmedSender.length < 2 || trimmedRecipient.length < 2) {
+    return errorResponse("Names must be at least 2 characters");
+  }
+
+  if (trimmedSender.length > 50 || trimmedRecipient.length > 50) {
     return errorResponse("Names must be 50 characters or fewer");
+  }
+
+  // Only allow letters (any script), spaces, hyphens, apostrophes, periods
+  const namePattern = /^[\p{L}\p{M}' .\-]+$/u;
+  if (!namePattern.test(trimmedSender) || !namePattern.test(trimmedRecipient)) {
+    return errorResponse("Names can only contain letters, spaces, hyphens and apostrophes");
   }
 
   if (!turnstileToken) {
@@ -84,8 +97,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const id = generateLinkId();
   const record: LinkRecord = {
     id,
-    senderName: senderName.trim(),
-    recipientName: recipientName.trim(),
+    senderName: trimmedSender,
+    recipientName: trimmedRecipient,
     accepted: false,
     createdAt: new Date().toISOString(),
     ...(sanitizedYoutubeUrl ? { youtubeUrl: sanitizedYoutubeUrl } : {}),

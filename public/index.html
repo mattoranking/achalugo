@@ -34,7 +34,10 @@
             type="text"
             id="sender-name"
             placeholder="e.g. Alex"
+            minlength="2"
             maxlength="50"
+            pattern="[\p{L}\p{M}' .\-]+"
+            title="Letters, spaces, hyphens and apostrophes only"
             required
             autocomplete="given-name"
           >
@@ -46,7 +49,10 @@
             type="text"
             id="recipient-name"
             placeholder="e.g. Jamie"
+            minlength="2"
             maxlength="50"
+            pattern="[\p{L}\p{M}' .\-]+"
+            title="Letters, spaces, hyphens and apostrophes only"
             required
           >
         </div>

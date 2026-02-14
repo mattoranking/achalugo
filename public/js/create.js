@@ -53,7 +53,7 @@
       totalCount.textContent     = data.personalLimit;
       countdownBadge.hidden      = false;
 
-      // Urgency when personal links exhausted
+      // Urgency when personal links is exhausted
       if (data.personalRemaining === 0) {
         countdownBadge.classList.add("countdown-urgent");
       } else if (data.personalRemaining === 1) {
@@ -80,6 +80,14 @@
     const youtubeUrl    = document.getElementById("youtube-url").value.trim();
 
     if (!senderName || !recipientName) return;
+
+    // Validate names — letters, spaces, hyphens, apostrophes only
+    var namePattern = /^[\p{L}\p{M}' .\-]{2,50}$/u;
+    if (!namePattern.test(senderName) || !namePattern.test(recipientName)) {
+      showFlash("😅 Names can only contain letters, spaces, hyphens and apostrophes (min 2 chars)");
+      return;
+    }
+
     if (!turnstileToken) return;
 
     // Show loading

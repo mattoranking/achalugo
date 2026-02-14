@@ -19,13 +19,10 @@
   const acceptedEl   = document.getElementById("accepted-card");
 
   const recipientEl  = document.getElementById("recipient-name");
-  const senderEl     = document.getElementById("sender-name");
   const yesBtn       = document.getElementById("yes-btn");
   const noBtn        = document.getElementById("no-btn");
-
-  const acceptedRecipient = document.getElementById("accepted-recipient");
-  const acceptedSender    = document.getElementById("accepted-sender");
   const youtubePlayer     = document.getElementById("youtube-player");
+  const celebrationSub    = document.getElementById("celebration-sub");
 
   let linkData = null;
 
@@ -83,7 +80,6 @@
   function showValentine(data) {
     loadingEl.hidden   = true;
     recipientEl.textContent = data.recipientName;
-    senderEl.textContent    = data.senderName;
     valentineEl.hidden      = false;
 
     // Initialize the evil "No" button behavior
@@ -96,24 +92,7 @@
     const container = document.querySelector(".valentine-buttons");
     let noEscapeCount = 0;
 
-    // Escalating labels — mix of playful English + Igbo/Nigerian flavor
-    const noLabels = [
-      "No 💔",              // 0 — starting text
-      "Nope! 😅",           // 1
-      "Catch me if you can! 😜", // 2
-      "Can't catch me! 🏃",  // 3
-      "Why are you running? 😂", // 4
-      "Just Say Yes, Alákorí 😈", // 5
-      "You no dey tire? 😩",     // 6
-      "Say Yes Nah, Achalugo 💕", // 7
-      "Give up already! 🙄",     // 8
-      "Try YES, it's easier! 😏", // 9
-      "Say Yes Sweetie! 🥺",     // 10
-      "Obim, say yes nah 💘",    // 11
-      "Una go tire! 😂",          // 12
-      "Say Yes! Atóolè 😂",       // 13
-      "JUST CLICK YES! 😤",      // 14
-    ];
+    const noLabels = window.ACHALUGO_CONFIG.NO_LABELS;
 
     function getNoLabel() {
       // Cycle through labels endlessly (loops back after reaching the end)
@@ -216,8 +195,9 @@
 
       // Show celebration
       valentineEl.hidden = true;
-      acceptedRecipient.textContent = data.recipientName;
-      acceptedSender.textContent    = data.senderName;
+      var endearments = window.ACHALUGO_CONFIG.ENDEARMENTS;
+      var pick = endearments[Math.floor(Math.random() * endearments.length)];
+      celebrationSub.textContent = "Happy Valentine's Day " + pick + "! 💕";
       acceptedEl.hidden  = false;
 
       startConfetti();

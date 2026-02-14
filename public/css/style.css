@@ -398,6 +398,14 @@ body {
   margin-bottom: 1rem;
 }
 
+.valentine-hint {
+  font-size: 0.85rem;
+  color: #c06;
+  opacity: 0.75;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
 .valentine-ask {
   font-size: 1.5rem;
   color: var(--pink-dark);
