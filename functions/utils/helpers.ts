@@ -26,5 +26,3 @@ export function jsonResponse(data: unknown, status = 200): Response {
 export function errorResponse(message: string, status = 400): Response {
   return jsonResponse({ error: message }, status);
 }
-
-export const MAX_LINKS = 500;

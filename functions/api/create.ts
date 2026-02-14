@@ -1,10 +1,10 @@
 import { verifyTurnstile } from "../utils/turnstile";
-import { checkRateLimit, MAX_REQUESTS } from "../utils/ratelimit";
+import { checkRateLimit } from "../utils/ratelimit";
+import { MAX_LINKS, MAX_REQUESTS } from "../utils/config";
 import {
   generateLinkId,
   jsonResponse,
   errorResponse,
-  MAX_LINKS,
 } from "../utils/helpers";
 
 /**
@@ -74,7 +74,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     if (yt.length > 200) {
       return errorResponse("YouTube URL is too long");
     }
-    const ytPattern = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//;
+    const ytPattern = /^https?:\/\/([a-z]+\.)?(youtube\.com|youtu\.be)\//;;
     if (!ytPattern.test(yt)) {
       return errorResponse("Please enter a valid YouTube URL");
     }

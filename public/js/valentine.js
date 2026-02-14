@@ -237,7 +237,8 @@
 
   // ── YouTube Video ────────────────────────────────────────────
   function extractYoutubeId(url) {
-    var match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    // Handle youtu.be/ID, youtube.com/watch?v=ID, /embed/ID, /shorts/ID, /live/ID
+    var match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|shorts\/|live\/))([a-zA-Z0-9_-]{11})/);
     return match ? match[1] : null;
   }
 

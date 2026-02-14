@@ -1,4 +1,5 @@
-import { jsonResponse, MAX_LINKS } from "../utils/helpers";
+import { jsonResponse } from "../utils/helpers";
+import { MAX_LINKS } from "../utils/config";
 import { peekRateLimit } from "../utils/ratelimit";
 
 /**

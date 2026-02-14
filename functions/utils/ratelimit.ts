@@ -1,10 +1,9 @@
 /**
  * Simple IP-based rate limiter using KV.
- * Allows MAX_REQUESTS per WINDOW_MS per IP address.
+ * Allows MAX_REQUESTS per RATE_LIMIT_WINDOW_MS per IP address.
  */
 
-export const MAX_REQUESTS = 2;     // max link creations per window
-const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
+import { MAX_REQUESTS, RATE_LIMIT_WINDOW_MS } from "./config";
 
 /**
  * Peek at current usage without incrementing.
@@ -20,7 +19,7 @@ export async function peekRateLimit(
   if (!raw) return { used: 0, limit: MAX_REQUESTS, remaining: MAX_REQUESTS };
 
   const entry: RateLimitEntry = JSON.parse(raw);
-  if (now - entry.windowStart > WINDOW_MS) {
+  if (now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
     return { used: 0, limit: MAX_REQUESTS, remaining: MAX_REQUESTS };
   }
 
@@ -44,7 +43,7 @@ export async function checkRateLimit(
     : { count: 0, windowStart: now };
 
   // Reset window if expired
-  if (now - entry.windowStart > WINDOW_MS) {
+  if (now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
     entry = { count: 0, windowStart: now };
   }
 
@@ -54,7 +53,7 @@ export async function checkRateLimit(
 
   // Increment and save
   entry.count++;
-  const ttlSeconds = Math.ceil((entry.windowStart + WINDOW_MS - now) / 1000);
+  const ttlSeconds = Math.ceil((entry.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000);
   await kv.put(key, JSON.stringify(entry), { expirationTtl: ttlSeconds });
 
   return { allowed: true, remaining: MAX_REQUESTS - entry.count };
