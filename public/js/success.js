@@ -25,9 +25,6 @@
   const shareText = "Hey " + recipient + "! Someone has a Valentine's surprise for you 💘";
   document.getElementById("share-whatsapp").href =
     "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + fullUrl);
-  document.getElementById("share-twitter").href =
-    "https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) +
-    "&url=" + encodeURIComponent(fullUrl);
 
   // Copy button
   var copyBtn = document.getElementById("copy-btn");

@@ -198,6 +198,20 @@
       var endearments = window.ACHALUGO_CONFIG.ENDEARMENTS;
       var pick = endearments[Math.floor(Math.random() * endearments.length)];
       celebrationSub.textContent = "Happy Valentine's Day " + pick + "! 💕";
+
+      // Wire up share links
+      var appUrl = window.location.origin;
+      var shareText = "I just got pranked on Achalugo 😂💘 Try sending one to your Valentine!";
+      var whatsappEl = document.getElementById("share-whatsapp");
+      var twitterEl = document.getElementById("share-twitter");
+      if (whatsappEl) {
+        whatsappEl.href = "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + appUrl);
+      }
+      if (twitterEl) {
+        twitterEl.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) +
+          "&url=" + encodeURIComponent(appUrl);
+      }
+
       acceptedEl.hidden  = false;
 
       startConfetti();
